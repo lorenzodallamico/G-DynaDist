@@ -29,7 +29,7 @@ The main codes to define our distance build upon the `EDRep` function that can b
 ## Content of the package
 * `Data`: in this directory we provide all the data needed to reproduce the results and the codes to generate them. More precisely
     * `SPData` hosts the original contact data as downloaded from the [SocioPatterns](http://www.sociopatterns.org/) web page.
-    
+    *  
 * `Package`: this directory contains the main functions needed to run our simulations. In particular
     * `MatrixDistance` implements the distance between two temporal graphs as proposed in our paper. For reference, see the sections below or the documentation of the functions themselves.
     * `GraphCreation` implements some functions needed to generate random graphs and random shuffles of temporal graphs. 
@@ -38,14 +38,13 @@ The main codes to define our distance build upon the `EDRep` function that can b
 * The notebooks can be used to obtain the pictures appearing in the paper. In particular `Recognize graphs` generates Figure 3b, `Recognize synthetic graphs` generates Figure 3a, `Recognize_shufflings` generates Figure 2.
 
 ## Folders to be added
+* `Graphs`: the data that should be inside of it are generated with the notebook named `Prepare_graphs` and they consists in a simple preprocessing of the data contained in `SPData` so to make them completely uniform in terms of format and represent them both in the format `(i,j,t)` and `(i,j,t,τ)`.
 
-    * `Graphs`: the data that should be inside of it are generated with the notebook named `Prepare_graphs` and they consists in a simple preprocessing of the data contained in `SPData` so to make them completely uniform in terms of format and represent them both in the format `(i,j,t)` and `(i,j,t,τ)`.
+* `Shuffled`: the data that should be inside of it are generated with the notebook named `Shuffle`. Once compiled, it generates a sequence of folders each one contianing several shuffles of every graph in the `Graphs` folder for all the shuffling types considered in the paper.
 
-    * `Shuffled`: the data that should be inside of it are generated with the notebook named `Shuffle`. Once compiled, it generates a sequence of folders each one contianing several shuffles of every graph in the `Graphs` folder for all the shuffling types considered in the paper.
+* `Embeddings`: the data that should be put inside of it are generated with the notebook named `Get embeddings`. They contain the embeddings for each temporal graph contained in the `Shuffled` folder.
 
-    * `Embeddings`: the data that should be put inside of it are generated with the notebook named `Get embeddings`. They contain the embeddings for each temporal graph contained in the `Shuffled` folder.
-
-    * `SP_Classes_2_per_day`: the data that should be put inside of it are generated with the notebook named `PrepareSP_day`. They represent the contacts related to the schools in which every dataset corresponds to one day of contact between two classes. The name of the file is in the format `school_name-class_1-class_2-date`.
+* `SP_Classes_2_per_day`: the data that should be put inside of it are generated with the notebook named `PrepareSP_day`. They represent the contacts related to the schools in which every dataset corresponds to one day of contact between two classes. The name of the file is in the format `school_name-class_1-class_2-date`.
 
 
 
