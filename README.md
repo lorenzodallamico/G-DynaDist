@@ -1,4 +1,4 @@
-# Dynamical graph distance
+# G-DynaDist
 
 These are the codes related to the paper 
 * Dall'Amico, Barrat, Cattuto - *...*
