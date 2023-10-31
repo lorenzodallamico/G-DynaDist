@@ -3,6 +3,9 @@ import numpy as np
 from joblib import Parallel, delayed
 import scipy.spatial.distance as ssd
 from scipy.cluster.hierarchy import linkage, fcluster
+from sklearn.cluster import KMeans
+from sklearn_extra.cluster import KMedoids
+from sklearn.decomposition import NMF
 
 
 def tij2tijtau(df, n_jobs = 8, verbose = 4):
@@ -48,15 +51,36 @@ def tij2tijtauIndex(df, index):
     return ddf
 
 
-def ClusterHierarchical(M, k, return_linked = False):
+def Cluster(M, k):
+    '''Performs spectral clustering on a matrix M'''
+    
+    μ = np.mean(M[M.nonzero()])
+    M = np.exp(-(M/μ))
+    μ = np.mean(M[M.nonzero()])
+    M = M - μ*np.ones(M.shape)
+    λ, X = np.linalg.eigh(M)
+
+    idx = np.argsort(np.abs(λ))[::-1]
+    X = X[:,idx]
+
+    kmeans = KMeans(n_clusters = k, random_state = 0, n_init = "auto").fit(X[:,:k])
+    
+    return kmeans.labels_
+
+
+def ClusterHierarchical(M, k):
     '''Performs hierarchical clustering on a matrix M'''
     distArray = ssd.squareform(M)
     linked = linkage(M, method = 'ward', metric = 'euclidean')
     est_ℓ = fcluster(linked, k, criterion = 'maxclust')
 
-    if return_linked:
-        return est_ℓ, linked
-    else:
-        return est_ℓ
+    return est_ℓ
 
+def ClusterNMF(M,k):
 
+    n, _ = M.shape
+    Mt = M + np.eye(n)*np.mean(M[M.nonzero()])
+    Mt = Mt/np.mean(Mt)
+    Y = NMF(n_components = k).fit(Mt).components_
+    est_ℓ = KMedoids(n_clusters = k).fit(Y.T).labels_
+    return est_ℓ

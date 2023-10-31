@@ -6,98 +6,70 @@ from copy import copy
 
 
 import sys
-sys.path += ['/home/lorenzo/Documenti/GitHub/p2vec/Package'] 
+sys.path += ['dir_to_EDRep/utils/'] 
 
-from edr import CreateEmbedding
+from EDRep import CreateEmbedding
 
 
 import warnings
 warnings.filterwarnings("ignore")
     
 
-def GraphDynamicEmbedding(dft, nodes = [None], dim = 32, n_epochs = 20, k = 1, verbose = False, η0 = 0.85,):
+def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
     '''This function computes the embedding of a dynamical graph using the EDRep algorithm
 
-    Use: X = GraphDynamicEmbedding(df, dim, n_epochs, k, verbose, η0)
+    Use: X = GraphDynamicEmbedding(df, n)
 
     Inputs:
         * df (pandas dataframe): input dynamic graph with the format `i, j, t, τ`  
-
+        * n (int): number of nodes
+        
     Optional inputs:  
-        * dim (int): dimensionality of the embedding. By default set to 16.
-        * n_epochs (int): Number of epochs of the training algorithm. By default set to 8.
+        * dim (int): dimensionality of the embedding. By default set to 32.
+        * n_epochs (int): Number of epochs of the training algorithm. By default set to 30.
         * k (int): Order of the Gaussian approximation of p2vec. By default set to 1.
         * verbose (bool): if `True` (default value) it will print the progress status.
-        * η0 (float): initial learning rate. By default set to 0.85
+        * η (float): learning rate. By default set to 0.8
         
     Output:
-        * X (array): embedding of the temporal graph
+        * X (array): embedding vector
     '''
 
-    df = copy(dft)
-    del dft
-    
-    # compute the duration and number of nodes
-    if nodes[0]:
-        nodes_scalar = np.arange(len(nodes))
-        NodesMapper = dict(zip(nodes, nodes_scalar))
-    else:
-        all_nodes = np.unique(df[['i', 'j']].values)
-        nodes_scalar = np.arange(len(all_nodes))
-        NodesMapper = dict(zip(all_nodes, nodes_scalar))
+    # group the graphs by time
+    df_grouped = df.groupby('t')
+    df_idx1 = df_grouped.i.apply(list)
+    df_idx2 = df_grouped.j.apply(list)
+    df_w = df_grouped.τ.apply(list)
+    all_times = df_grouped.indices.keys()
 
-    df.i = df.i.map(lambda x: NodesMapper[x])
-    df.j = df.j.map(lambda x: NodesMapper[x])
-    n = len(NodesMapper.keys())
-    
-    df = df.set_index('t')
-
-    # sort time in ascending order
-    all_times = np.sort(df.index.unique())
-    T = len(all_times)
-
-    At = []
+    # get the graph matrix for each time-step
+    Pt = []
 
     for t in all_times:
 
-        # select the active nodes @t
-        dft = df.loc[t]
-
-        try:
-            length = len(dft.i)
-            idx1 = np.minimum(dft.i, dft.j)
-            idx2 = np.maximum(dft.i, dft.j)
-            w = dft.τ.values
-        except TypeError:
-            length = 1
-            idx1 = [np.min([dft.i, dft.j])]
-            idx2 = [np.max([dft.i, dft.j])]
-            w = [dft.τ]
-    
         # build the adjacency matrix @t
-        A = csr_matrix((w, (idx1, idx2)), shape = (n,n))
+        A = csr_matrix((df_w.loc[t], (df_idx1.loc[t], df_idx2.loc[t])), shape = (n,n))
         A = A + A.T
-        A = A + diags(np.ones(n))
-        At.append(A)
-        
-    # get the Laplacian matrices for all times
-    dt = [A@np.ones(n) for A in At]
-    Dt_1 = [diags(d**(-1)) for d in dt]
-    Pt = [D_1.dot(A) for D_1, A in zip(Dt_1, At)]
+        A = A + diags(np.ones(n))   
+
+        # get the Laplacian matrix
+        d = A@np.ones(n)
+        D_1 = diags(d**(-1))
+        Pt.append(D_1.dot(A))
 
     # get the P matrix
-    if len(dft) > n**2:
+    if len(df) > n**2:
         P = [np.sum(np.cumprod(Pt))/len(Pt)]
 
         # create the embedding
-        X = CreateEmbedding(P, dim = dim, n_epochs = n_epochs, k = 1, η = η0, verbose = verbose, cov_type = 'full')
+        res = CreateEmbedding(P, dim = dim, n_epochs = n_epochs, k = 1, η = η, verbose = verbose)
     else:
-        X = CreateEmbedding(Pt, dim = dim, n_epochs = n_epochs, k = 1, η = η0, verbose = verbose, cov_type = 'full', sum_partials = True)
-    
-    return X
-   
+        res = CreateEmbedding(Pt, dim = dim, n_epochs = n_epochs, k = 1, η = η, verbose = verbose, sum_partials = True)
 
-def EmbDistance(X, Y, distance_type = 'global'):
+    return res.X
+
+
+def EmbDistance(X, Y, distance_type = 'unmatched'):
     '''This function computes the distance between 
 
     Use: d = EmbDistance(X, Y)
@@ -106,7 +78,7 @@ def EmbDistance(X, Y, distance_type = 'global'):
         * X, Y (arrays): input embeddings corresponding to the two temporal graphs. The number of rows of the two matrices must be the same.
         
     Optional inputs:
-        * distance_type (string): can be 'global' or 'local'
+        * distance_type (string): can be 'unmatched' or 'matched'
 
     Output:
         * d (float): distance between the two graphs.
@@ -123,16 +95,16 @@ def EmbDistance(X, Y, distance_type = 'global'):
         d = d1
 
     
-    if distance_type not in ['global', 'local']:
+    if distance_type not in ['unmatched', 'matched']:
         raise DeprecationWarning('The distance type is not valid')
     
     else:
-        if (distance_type == 'local') and (n1 != n2):
+        if (distance_type == 'matched') and (n1 != n2):
             raise DeprecationWarning("The input matrices do not have the same size")
         else:
             n = n1
 
-    if distance_type == 'local':
+    if distance_type == 'matched':
         Mxx = X.T@X
         Mxy = X.T@Y
         Myy = Y.T@Y
@@ -146,7 +118,7 @@ def EmbDistance(X, Y, distance_type = 'global'):
     return d
 
 
-def DynamicGraphDistance(df1, df2, distance_type = 'global', dim = 32, n_epochs = 20, k = 1, verbose = False, η0 = 0.85):
+def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
     '''This function computes the distance between two temporal graphs
 
     Use: d = DynamicGraphDistance(df1, df2)
@@ -155,20 +127,26 @@ def DynamicGraphDistance(df1, df2, distance_type = 'global', dim = 32, n_epochs 
         * df1, df2 (pandas dataframe): input dynamic graphs with the format `i, j, t, τ`  
 
     Optional inputs:  
-        * distance_type (string): can be 'global' (default) or 'local'
-        * dim (int): dimensionality of the embedding. By default set to 16.
-        * n_epochs (int): Number of epochs of the training algorithm. By default set to 8.
+        * distance_type (string): can be 'unmatched' (default) or 'matched'
+        * dim (int): dimensionality of the embedding. By default set to 32.
+        * n_epochs (int): Number of epochs of the training algorithm. By default set to 30.
         * k (int): Order of the Gaussian approximation of p2vec. By default set to 1.
         * verbose (bool): if `True` (default value) it will print the progress status.
-        * η0 (float): initial learning rate. By default set to 0.85
+        * η (float): initial learning rate. By default set to 0.8
         
     Output:
         * d (float): graph distance
     '''
 
-    X = GraphDynamicEmbedding(df1, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η0 = η0)
-    Y = GraphDynamicEmbedding(df2, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η0 = η0)
+    # number of nodes
+    n1 = len(np.unique(df1[['i', 'j']].values))
+    n2 = len(np.unique(df2[['i', 'j']].values))
 
+    # embeddings
+    X = GraphDynamicEmbedding(df1, n = n1, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
+    Y = GraphDynamicEmbedding(df2, n = n2, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
+
+    # distance
     d = EmbDistance(X, Y,  distance_type = distance_type)
 
     return d

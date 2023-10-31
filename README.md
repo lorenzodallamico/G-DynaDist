@@ -1,7 +1,7 @@
 # G-DynaDist
 
 These are the codes related to the paper 
-* Dall'Amico, Barrat, Cattuto - *...*
+* Dall'Amico, Barrat, Cattuto - *G-DynaDist: a distance for dynamic graphs*
 
 These codes implement our definition of distance between temporal graphs and can be used to reproduce the results in the related paper.
 
@@ -54,10 +54,10 @@ We consider as valid temporal graph inputs only pandas dataframes with columns `
 * `GraphDynamicEmbedding`: this function computes the embedding of a dynamical graph using the EDRep algorithm
 
     ```python
-    X = GraphDynamicEmbedding(df, dim, n_epochs, k, verbose, η0)
+    X = GraphDynamicEmbedding(df, n, dim, n_epochs, k, verbose, η0)
     ```
 
-    The only input that must be specified is `df` (the temporal graph), while the others are `dim` (the embedding dimensionality), and other parameters related to the *EDRep* algorithm. The output is the array *X*.
+    The only inputs that must be specified is `df` (the temporal graph) and `n` the number of nodes, while the others are `dim` (the embedding dimensionality), and other parameters related to the *EDRep* algorithm. The output is the array *X*.
 
 * `EmbDistance`: this function computes the distance between two embeddings
 
@@ -70,7 +70,7 @@ We consider as valid temporal graph inputs only pandas dataframes with columns `
 * `DynamicGraphDistance`: this function computes the distance between two temporal graphs.
 
     ```python
-    d = DynamicGraphDistance(df1, df2, distance_type = 'global', dim, n_epochs, k, verbose, η0)
+    d = DynamicGraphDistance(df1, df2, distance_type = 'matched', dim, n_epochs, k, verbose, η0)
     ```
 
     This is just a combination of the former two functions.
