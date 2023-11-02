@@ -82,5 +82,5 @@ def ClusterNMF(M,k):
     Mt = M + np.eye(n)*np.mean(M[M.nonzero()])
     Mt = Mt/np.mean(Mt)
     Y = NMF(n_components = k).fit(Mt).components_
-    est_ℓ = KMedoids(n_clusters = k).fit(Y.T).labels_
+    est_ℓ = KMeans(n_clusters = k, n_init = 10).fit(Y.T).labels_
     return est_ℓ
