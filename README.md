@@ -8,7 +8,14 @@ These codes implement our definition of distance between temporal graphs and can
 > If you make use of these codes, please reference the article
 
 ```
-reference
+@misc{dallamico2024embeddingbased,
+      title={An embedding-based distance for temporal graphs}, 
+      author={Lorenzo Dall'Amico and Alain Barrat and Ciro Cattuto},
+      year={2024},
+      eprint={2401.12843},
+      archivePrefix={arXiv},
+      primaryClass={cs.SI}
+}
 ```
 
 ## Dependence on the EDRep package
