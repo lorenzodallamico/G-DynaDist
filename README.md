@@ -8,7 +8,7 @@ These codes implement our definition of distance between temporal graphs and can
 > If you make use of these codes, please reference the article
 
 ```
-@misc{dallamico2024embeddingbased,
+@article{dallamico2024embeddingbased,
       title={An embedding-based distance for temporal graphs}, 
       author={Lorenzo Dall'Amico and Alain Barrat and Ciro Cattuto},
       year={2024},
@@ -23,7 +23,7 @@ These codes implement our definition of distance between temporal graphs and can
 The main codes to define our distance build upon the `EDRep` function that can be found at https://github.com/lorenzodallamico/EDRep. If you make use of this package, please refer to the original article in which `EDRep` was introduced.
 
 ```
-@misc{dallamico2023efficient,
+@article{dallamico2023efficient,
       title={Efficient distributed representations beyond negative sampling}, 
       author={Lorenzo Dall'Amico and Enrico Maria Belliardo},
       year={2023},
