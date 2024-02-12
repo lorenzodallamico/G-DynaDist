@@ -1,7 +1,7 @@
 # G-DynaDist
 
 These are the codes related to the paper 
-* Dall'Amico, Barrat, Cattuto - *G-DynaDist: a distance for dynamic graphs*
+* Dall'Amico, Barrat, Cattuto - *An embedding-based distance for temporal graphs*
 
 These codes implement our definition of distance between temporal graphs and can be used to reproduce the results in the related paper.
 
