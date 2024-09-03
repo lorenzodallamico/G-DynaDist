@@ -56,7 +56,12 @@ The main codes to define our distance build upon the `EDRep` function that can b
 
 # Example of use 
 
-We consider as valid temporal graph inputs only pandas dataframes with columns `i, j, t, τ`. For this type of graph we have three main functions:
+We consider as valid temporal graph inputs only pandas dataframes with columns `i, j, t, τ`. 
+
+> **IMPORTANT NOTE**: the time indices should be expressed in multiples of the time resolution and the initial time should be set to zero. For instance, if the temporal resolution is one minute and the initial time is $17:00$, then the temporal edges $\{(1, 2, 17:00), (1, 2, 17:01)\}$ should be represented as $\{(1, 2, 0), (1, 2, 1)\}$. If this operation is not performed, the codes will be much slower. Moreover, note that $\tau$ is a temporal edge weight a not a duration.
+
+
+For this type of graph we have three main functions:
 
 * `GraphDynamicEmbedding`: this function computes the embedding of a dynamical graph using the EDRep algorithm
 

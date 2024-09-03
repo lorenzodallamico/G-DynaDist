@@ -4,6 +4,7 @@ import itertools
 import pandas as pd
 from scipy.sparse import csr_matrix
 from copy import copy
+# from joblib import Parallel, delayed
 
 def generateSequence(outputfolder, model, args, n_graphs, verbose = True, append_name = '.csv'):
     '''This function generates a sequence of graphs that have a common generative model in each block

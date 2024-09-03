@@ -6,7 +6,7 @@ from copy import copy
 
 
 import sys
-sys.path += ['dir_to_EDRep/utils/'] 
+sys.path += ['your_directory/utils/'] 
 
 from EDRep import CreateEmbedding
 
@@ -40,12 +40,12 @@ def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False
     df_idx1 = df_grouped.i.apply(list)
     df_idx2 = df_grouped.j.apply(list)
     df_w = df_grouped.τ.apply(list)
-    all_times = df_grouped.indices.keys()
+    all_times = list(df_grouped.indices.keys())
 
     # get the graph matrix for each time-step
     Pt = []
 
-    for t in all_times:
+    for t in all_times[::-1]:
 
         # build the adjacency matrix @t
         A = csr_matrix((df_w.loc[t], (df_idx1.loc[t], df_idx2.loc[t])), shape = (n,n))
@@ -58,7 +58,7 @@ def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False
         Pt.append(D_1.dot(A))
 
     # get the P matrix
-    if len(df) > n**2:
+    if len(df) > n*(n-1)/2:
         P = [np.sum(np.cumprod(Pt))/len(Pt)]
 
         # create the embedding
@@ -143,7 +143,10 @@ def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', dim = 32, n_epoc
     n2 = len(np.unique(df2[['i', 'j']].values))
 
     # embeddings
+    np.random.seed(123)
     X = GraphDynamicEmbedding(df1, n = n1, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
+
+    np.random.seed(123)
     Y = GraphDynamicEmbedding(df2, n = n2, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
 
     # distance

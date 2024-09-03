@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from joblib import Parallel, delayed
 import scipy.spatial.distance as ssd
 from scipy.cluster.hierarchy import linkage, fcluster
 from sklearn.cluster import KMeans
@@ -51,36 +50,57 @@ def tij2tijtauIndex(df, index):
     return ddf
 
 
-def Cluster(M, k):
-    '''Performs spectral clustering on a matrix M'''
-    
-    μ = np.mean(M[M.nonzero()])
-    M = np.exp(-(M/μ))
-    μ = np.mean(M[M.nonzero()])
-    M = M - μ*np.ones(M.shape)
-    λ, X = np.linalg.eigh(M)
-
-    idx = np.argsort(np.abs(λ))[::-1]
-    X = X[:,idx]
-
-    kmeans = KMeans(n_clusters = k, random_state = 0, n_init = "auto").fit(X[:,:k])
-    
-    return kmeans.labels_
-
-
-def ClusterHierarchical(M, k):
-    '''Performs hierarchical clustering on a matrix M'''
-    distArray = ssd.squareform(M)
-    linked = linkage(M, method = 'ward', metric = 'euclidean')
-    est_ℓ = fcluster(linked, k, criterion = 'maxclust')
-
-    return est_ℓ
-
-def ClusterNMF(M,k):
+def NMF_kmeans(M,k):
 
     n, _ = M.shape
     Mt = M + np.eye(n)*np.mean(M[M.nonzero()])
     Mt = Mt/np.mean(Mt)
     Y = NMF(n_components = k).fit(Mt).components_
-    est_ℓ = KMeans(n_clusters = k, n_init = 10).fit(Y.T).labels_
+    kmeans = KMeans(n_clusters = k, n_init = 10).fit(Y.T)
+    return kmeans.labels_, np.abs(kmeans.score(Y.T))
+
+
+def ClusterNMF(M, k):
+    
+    est_ℓ, score = NMF_kmeans(M, k)
+    
+    for i in range(20):
+        est_ℓ_, score_ = NMF_kmeans(M, k)
+        if score_ < score:
+            score = score_
+            est_ℓ = est_ℓ_
+            
     return est_ℓ
+
+
+def MakeTemporal(dft, timeFR):
+    '''This function takes an edge list (dft) in the form of a pandas dataframe and all the time series stored in
+    timeFR and creates a temporal graph'''
+
+    idx1 = []
+    idx2 = []
+    tv = []
+
+    # map each edge to one of the edges from time_FR
+    for x in range(len(dft)):
+        i, j = dft.iloc[x].values
+        q = np.random.randint(len(timeFR))
+
+        for t in timeFR[q]:
+            idx1.append(i)
+            idx2.append(j)
+            tv.append(t)
+
+    # build the temporal dataframe
+    DFT = pd.DataFrame(np.array([idx1, idx2, tv]).T, columns = ['i', 'j', 't'])
+    DFT.t -= DFT.t.min()
+    DFT.t /= 10*60 # 10 minutes time resolution
+    DFT.t = DFT.t.astype(int)
+    DFT['τ'] = 1
+    DFT = DFT.groupby(['i', 'j', 't']).sum().reset_index()
+    
+    return DFT
+
+def CosSim(x,y):
+    '''Cosine similarity between two vectors'''
+    return x@y/np.sqrt(x@x*y@y)
