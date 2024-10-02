@@ -1,6 +1,7 @@
 # G-DynaDist
 
-\doi{https://zenodo.org/records/13880695}
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13880695.svg)](https://doi.org/10.5281/zenodo.13880695)
+
 
 These are the codes related to the paper 
 * Dall'Amico, Barrat, Cattuto - *An embedding-based distance for temporal graphs*
