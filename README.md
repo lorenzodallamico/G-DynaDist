@@ -27,7 +27,7 @@ The main codes to define our distance build upon the `EDRep` function that can b
 
 ```
 @article{dallamico2023efficient,
-      title={Efficient distributed representations beyond negative sampling}, 
+      title={Efficient distributed representations with linear-time attention scores normalization}, 
       author={Lorenzo Dall'Amico and Enrico Maria Belliardo},
       year={2023},
       eprint={2303.17475},
