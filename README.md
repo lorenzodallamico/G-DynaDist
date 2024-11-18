@@ -14,10 +14,11 @@ These codes implement our definition of distance between temporal graphs and can
 @article{dallamico2024embeddingbased,
       title={An embedding-based distance for temporal graphs}, 
       author={Lorenzo Dall'Amico and Alain Barrat and Ciro Cattuto},
+      journal={Nature Communications},
+      volume={15},
+      number={9954}
       year={2024},
-      eprint={2401.12843},
-      archivePrefix={arXiv},
-      primaryClass={cs.SI}
+      doi={https://doi.org/10.1038/s41467-024-54280-4}
 }
 ```
 
