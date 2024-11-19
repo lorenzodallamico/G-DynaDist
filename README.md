@@ -11,15 +11,18 @@ These codes implement our definition of distance between temporal graphs and can
 > If you make use of these codes, please reference the article
 
 ```
-@article{dallamico2024embeddingbased,
-      title={An embedding-based distance for temporal graphs}, 
-      author={Lorenzo Dall'Amico and Alain Barrat and Ciro Cattuto},
-      journal={Nature Communications},
-      volume={15},
-      number={9954}
-      year={2024},
-      doi={https://doi.org/10.1038/s41467-024-54280-4}
-}
+@article{Dall_Amico_2024,
+   title={An embedding-based distance for temporal graphs},
+   volume={15},
+   ISSN={2041-1723},
+   url={http://dx.doi.org/10.1038/s41467-024-54280-4},
+   DOI={10.1038/s41467-024-54280-4},
+   number={1},
+   journal={Nature Communications},
+   publisher={Springer Science and Business Media LLC},
+   author={Dall’Amico, Lorenzo and Barrat, Alain and Cattuto, Ciro},
+   year={2024},
+   month=nov }
 ```
 
 ## Dependence on the EDRep package
