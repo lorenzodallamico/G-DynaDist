@@ -11,7 +11,7 @@ These codes implement our definition of distance between temporal graphs and can
 > If you make use of these codes, please reference the article
 
 ```
-@article{Dall_Amico_2024,
+@article{dallamico2024embeddingbased,
    title={An embedding-based distance for temporal graphs},
    volume={15},
    ISSN={2041-1723},
@@ -50,6 +50,8 @@ The main codes to define our distance build upon the `EDRep` function that can b
 
 * The notebooks can be used to obtain the pictures appearing in the paper. In particular `Recognize graphs` generates Figure 3b, `Recognize synthetic graphs` generates Figure 3a, `Recognize_shufflings` generates Figure 2.
 
+* The notebook `Example` is gives an illustratory example of use of the distance and of the pre-processing that one needs to make on the input data.
+
 ## Folders to be added
 * `Data/Graphs`: the data that should be inside of it are generated with the notebook named `Prepare_graphs` and they consists in a simple preprocessing of the data contained in `Data/SPData` so to make them completely uniform in terms of format and represent them both in the format `(i,j,t)` and `(i,j,t,τ)`.
 
@@ -63,9 +65,11 @@ The main codes to define our distance build upon the `EDRep` function that can b
 
 # Example of use 
 
+Here you can find a summary of the main points needed to deploy our code. A more detailed example is provided in the notebook `Example.ipynb`.
+
 We consider as valid temporal graph inputs only pandas dataframes with columns `i, j, t, τ`. 
 
-> **IMPORTANT NOTE**: the time indices should be expressed in multiples of the time resolution and the initial time should be set to zero. For instance, if the temporal resolution is one minute and the initial time is $17:00$, then the temporal edges $\{(1, 2, 17:00), (1, 2, 17:01)\}$ should be represented as $\{(1, 2, 0), (1, 2, 1)\}$. If this operation is not performed, the codes will be much slower. Moreover, note that $\tau$ is a temporal edge weight a not a duration.
+> **IMPORTANT NOTE**: the time indices should be expressed in multiples of the time resolution and the initial time should be set to zero. For instance, if the temporal resolution is one minute and the initial time is $17:00$, then the temporal edges $\{(i = 1, j = 2, t = 17:00, τ = 1), (i = 1, j = 2, t = 17:01, τ = 2)\}$ should be represented as $\{(i =1, j = 2, t = 0, τ = 1), (i = 1, j = 2, t = 1, τ = 2)\}$. If this operation is not performed, the codes will be much slower. Moreover, note that $\tau$ is a temporal edge weight a not a duration.
 
 
 For this type of graph we have three main functions:
@@ -73,7 +77,7 @@ For this type of graph we have three main functions:
 * `GraphDynamicEmbedding`: this function computes the embedding of a dynamical graph using the EDRep algorithm
 
     ```python
-    X = GraphDynamicEmbedding(df, n, dim, n_epochs, k, verbose, η0)
+    X = GraphDynamicEmbedding(df, n, symmetric, dim, n_epochs, k, verbose, η)
     ```
 
     The only inputs that must be specified is `df` (the temporal graph) and `n` the number of nodes, while the others are `dim` (the embedding dimensionality), and other parameters related to the *EDRep* algorithm. The output is the array *X*.
@@ -89,7 +93,7 @@ For this type of graph we have three main functions:
 * `DynamicGraphDistance`: this function computes the distance between two temporal graphs.
 
     ```python
-    d = DynamicGraphDistance(df1, df2, distance_type = 'matched', dim, n_epochs, k, verbose, η0)
+        d = DynamicGraphDistance(df1, df2, distance_type, symmetric, n1 , n2, dim, n_epochs, k, verbose, η0)
     ```
 
     This is just a combination of the former two functions.

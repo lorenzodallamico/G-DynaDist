@@ -5,6 +5,7 @@ from scipy.linalg import orthogonal_procrustes
 from copy import copy
 
 
+
 import sys
 sys.path += ['your_directory/utils/'] 
 
@@ -15,7 +16,7 @@ import warnings
 warnings.filterwarnings("ignore")
     
 
-def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
+def GraphDynamicEmbedding(df, n, symmetric = True, dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
     '''This function computes the embedding of a dynamical graph using the EDRep algorithm
 
     Use: X = GraphDynamicEmbedding(df, n)
@@ -25,6 +26,7 @@ def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False
         * n (int): number of nodes
         
     Optional inputs:  
+        * symmetric (bool): if True (default) is forces the adjacency matrices at each time point to be symmetric
         * dim (int): dimensionality of the embedding. By default set to 32.
         * n_epochs (int): Number of epochs of the training algorithm. By default set to 30.
         * k (int): Order of the Gaussian approximation of p2vec. By default set to 1.
@@ -49,7 +51,8 @@ def GraphDynamicEmbedding(df, n, dim = 32, n_epochs = 30, k = 1, verbose = False
 
         # build the adjacency matrix @t
         A = csr_matrix((df_w.loc[t], (df_idx1.loc[t], df_idx2.loc[t])), shape = (n,n))
-        A = A + A.T
+        if symmetric:
+            A = A + A.T
         A = A + diags(np.ones(n))   
 
         # get the Laplacian matrix
@@ -118,7 +121,7 @@ def EmbDistance(X, Y, distance_type = 'unmatched'):
     return d
 
 
-def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
+def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', symmetric = True, n1 = None, n2 = None, dim = 32, n_epochs = 30, k = 1, verbose = False, η = 0.8):
     '''This function computes the distance between two temporal graphs
 
     Use: d = DynamicGraphDistance(df1, df2)
@@ -128,6 +131,9 @@ def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', dim = 32, n_epoc
 
     Optional inputs:  
         * distance_type (string): can be 'unmatched' (default) or 'matched'
+        * symmetric (bool): if True (default) it forces the adjacency matrices at each time to be symmetric
+        * n1 (int): size of the first graph
+        * n2 (int): size of the second graph
         * dim (int): dimensionality of the embedding. By default set to 32.
         * n_epochs (int): Number of epochs of the training algorithm. By default set to 30.
         * k (int): Order of the Gaussian approximation of p2vec. By default set to 1.
@@ -139,15 +145,17 @@ def DynamicGraphDistance(df1, df2, distance_type = 'unmatched', dim = 32, n_epoc
     '''
 
     # number of nodes
-    n1 = len(np.unique(df1[['i', 'j']].values))
-    n2 = len(np.unique(df2[['i', 'j']].values))
+    if not n1:
+        n1 = len(np.unique(df1[['i', 'j']].values))
+    if not n2:
+        n2 = len(np.unique(df2[['i', 'j']].values))
 
     # embeddings
     np.random.seed(123)
-    X = GraphDynamicEmbedding(df1, n = n1, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
+    X = GraphDynamicEmbedding(df1, n = n1, symmetric = symmetric, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
 
     np.random.seed(123)
-    Y = GraphDynamicEmbedding(df2, n = n2, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
+    Y = GraphDynamicEmbedding(df2, n = n2, symmetric = symmetric, dim = dim, n_epochs = n_epochs, k = k, verbose = verbose, η = η)
 
     # distance
     d = EmbDistance(X, Y,  distance_type = distance_type)
