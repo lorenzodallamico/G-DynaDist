@@ -30,13 +30,15 @@ These codes implement our definition of distance between temporal graphs and can
 The main codes to define our distance build upon the `EDRep` function that can be found at https://github.com/lorenzodallamico/EDRep. If you make use of this package, please refer to the original article in which `EDRep` was introduced.
 
 ```
-@article{dallamico2023efficient,
-      title={Efficient distributed representations with linear-time attention scores normalization}, 
-      author={Lorenzo Dall'Amico and Enrico Maria Belliardo},
-      year={2023},
-      eprint={2303.17475},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@article{
+dallamico2025learning,
+title={Learning distributed representations with efficient SoftMax normalization},
+author={Lorenzo Dall'Amico and Enrico Maria Belliardo},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2025},
+url={https://openreview.net/forum?id=9M4NKMZOPu},
+note={}
 }
 ```
 
