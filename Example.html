@@ -1,0 +1,960 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Details on the use of the GDynaDist algorithm &#8212; GDynaDist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Example';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Example of usage" href="Experiment.html" />
+    <link rel="prev" title="1. Quick tutorial" href="quick.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="GDynaDist - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="GDynaDist - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome!
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quick.html">1. Quick tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Details on the use of the <code class="docutils literal notranslate"><span class="pre">GDynaDist</span></code> algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Experiment.html">3. Example of usage</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lorenzodallamico/G-DynaDist" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lorenzodallamico/G-DynaDist/issues/new?title=Issue%20on%20page%20%2FExample.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Example.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Details on the use of the GDynaDist algorithm</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-the-input-graphs">2.2. Dealing with the input graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formats">2.2.1. Data formats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-graphs4distance-class">2.2.2. Using the <code class="docutils literal notranslate"><span class="pre">Graphs4Distance</span></code> class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-datasets-to-the-data-class">2.2.3. Adding datasets to the <code class="docutils literal notranslate"><span class="pre">Data</span></code> class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-distance">2.3. Computing the distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-other-file-formats">2.4. Using other file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ijttau">2.4.1. <code class="docutils literal notranslate"><span class="pre">ijttau</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ijtw-format">2.4.2. <code class="docutils literal notranslate"><span class="pre">ijtw</span></code> format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">2.5. Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="details-on-the-use-of-the-gdynadist-algorithm">
+<h1><span class="section-number">2. </span>Details on the use of the <code class="docutils literal notranslate"><span class="pre">GDynaDist</span></code> algorithm<a class="headerlink" href="#details-on-the-use-of-the-gdynadist-algorithm" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">2.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Our package allows one to compute a distance between pairs of temporal graphs. The package relies on <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to represent graphs as a sequence of temporal edge lists. We allow three formats to represent temporal edges:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\((i,j,t)\)</span>: this notation means that node <span class="math notranslate nohighlight">\(i\)</span> interacts with node <span class="math notranslate nohighlight">\(j\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>. Here, time is a discrete quantity, and each interaction lasts exactly one time unit.</p></li>
+<li><p><span class="math notranslate nohighlight">\((i, j, t, \tau)\)</span>: this notation denotes an interaction between node <span class="math notranslate nohighlight">\(i\)</span> and node <span class="math notranslate nohighlight">\(j\)</span> starting at time <span class="math notranslate nohighlight">\(t\)</span> and lasting a duration <span class="math notranslate nohighlight">\(\tau\)</span>. In this case, time can be continuous.</p></li>
+<li><p><span class="math notranslate nohighlight">\((i, j, t, w)\)</span>: similarly to the first notation, time is discrete, and each edge has an additional weight.</p></li>
+</ul>
+<div style="background-color: #e7f3f9; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; font-family: sans-serif; color: #084b63; margin: 1em 0;">
+  <span style="font-weight: bold; display: inline-flex; align-items: center;">
+    <svg style="height: 16px; width: 16px; margin-right: 6px; fill: #084b63;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.93 10.412c0 .337-.274.588-.61.588h-.64c-.336 0-.61-.251-.61-.588V7.589c0-.337.274-.589.61-.589h.64c.336 0 .61.252.61.589v3.823zM8 5.2a.867.867 0 110-1.734.867.867 0 010 1.733z"/>
+    </svg>
+    Note:
+  </span>
+  As we will show in the following, time can be expressed both as a number (float or integer) -- corresponding to a quantity of time units (seconds, for instance) -- or in a date-time format (using a string).
+</div>
+<p>In the <code class="docutils literal notranslate"><span class="pre">Data</span></code> folder, we shared some datasets to showcase the use of our distance, which we now describe in detail. First, we load the relevant packages and the temporal graphs in the form of temporal edge lists. We use here the <a class="reference external" href="http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/"><code class="docutils literal notranslate"><span class="pre">primaryschool</span></code></a> dataset collected by the <em>SocioPatterns</em> collaboration.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># laod packages</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">GDynaDist</span> <span class="kn">import</span> <span class="n">Graphs4Distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dealing-with-the-input-graphs">
+<h2><span class="section-number">2.2. </span>Dealing with the input graphs<a class="headerlink" href="#dealing-with-the-input-graphs" title="Link to this heading">#</a></h2>
+<section id="data-formats">
+<h3><span class="section-number">2.2.1. </span>Data formats<a class="headerlink" href="#data-formats" title="Link to this heading">#</a></h3>
+<p>We first look at a dataset in the <code class="docutils literal notranslate"><span class="pre">ijt</span></code> format. The column names <strong>must</strong> be <code class="docutils literal notranslate"><span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span></code>, and <code class="docutils literal notranslate"><span class="pre">t</span></code> and <strong>must</strong> represent nodes’ identities (columns <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code>) and time (column <code class="docutils literal notranslate"><span class="pre">t</span></code>). The nodes’ identities can be integers, floats, or even strings. Time can be represented in two ways: i) as a number (in this case, it has to be an integer or a float); ii) in datetime format. We now provide an example of the same dataset with the two possible time formats.</p>
+<div style="background-color: #e7f3f9; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; font-family: sans-serif; color: #084b63; margin: 1em 0;">
+  <span style="font-weight: bold; display: inline-flex; align-items: center;">
+    <svg style="height: 16px; width: 16px; margin-right: 6px; fill: #084b63;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.93 10.412c0 .337-.274.588-.61.588h-.64c-.336 0-.61-.251-.61-.588V7.589c0-.337.274-.589.61-.589h.64c.336 0 .61.252.61.589v3.823zM8 5.2a.867.867 0 110-1.734.867.867 0 010 1.733z"/>
+    </svg>
+    Note:
+  </span>
+  This representation is meant for an unweighted temporal graph, but it can be both directed and undirected. In the following sections, we will specify how to handle the two cases separately.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dataset with time in numbers</span>
+<span class="n">df_ijt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Data/primaryschool.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># dataset with time in datetime format</span>
+<span class="n">df_ijt_datetime</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Data/primaryschool_datetime.csv&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time as numbers:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">df_ijt</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.......</span><span class="se">\n</span><span class="s1">Time as datetime:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">df_ijt_datetime</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time as numbers:
+       i     j      t
+0  1558  1567  31220
+1  1560  1570  31220
+2  1567  1574  31220
+3  1632  1818  31220
+4  1632  1866  31220
+.......
+Time as datetime:
+       i     j                    t
+0  1558  1567  1970-01-01 08:40:20
+1  1560  1570  1970-01-01 08:40:20
+2  1567  1574  1970-01-01 08:40:20
+3  1632  1818  1970-01-01 08:40:20
+4  1632  1866  1970-01-01 08:40:20
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-the-graphs4distance-class">
+<h3><span class="section-number">2.2.2. </span>Using the <code class="docutils literal notranslate"><span class="pre">Graphs4Distance</span></code> class<a class="headerlink" href="#using-the-graphs4distance-class" title="Link to this heading">#</a></h3>
+<p>To compute the distance between graph pairs, we must first initiate a class to which all the relevant parameters are fed. We describe here its use and its arguments. Note that <strong>all these inputs are optional</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="o">=</span> <span class="n">Graphs4Distance</span><span class="p">(</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">eta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">seed</span> <span class="p">:</span> <span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code>: this parameter sets the level of verbosity and can be (0, 1, 2). With verbose = 0, the progress will not be printed. With verbose = 1, only some messages will be printed, while verbose = 2 is the highest verbosity level.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dim</span></code>: the distance between temporal graphs is computed in an embedded space, and this parameter sets its dimension. By default, we let d = 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_epochs</span></code>: number of training epochs to obtain the embeddings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>: Order of the Gaussian approximation of <a class="reference external" href="https://lorenzodallamico.github.io/EDRep/intro.html"><strong>EDRep</strong></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eta</span></code>: learning rate to obtain the embeddings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code>: seed used for the random number generator</p></li>
+</ul>
+</div></blockquote>
+<p>So, we initialize the class with its default values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="o">=</span> <span class="n">Graphs4Distance</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-datasets-to-the-data-class">
+<h3><span class="section-number">2.2.3. </span>Adding datasets to the <code class="docutils literal notranslate"><span class="pre">Data</span></code> class<a class="headerlink" href="#adding-datasets-to-the-data-class" title="Link to this heading">#</a></h3>
+<p>The idea of using the <code class="docutils literal notranslate"><span class="pre">Data</span></code> class is to have all the relevant pieces of information in a single place. The first step is thus to add <strong>all</strong> graphs to this class. In this tutorial, we will use the <code class="docutils literal notranslate"><span class="pre">df_ijt</span></code> and <code class="docutils literal notranslate"><span class="pre">df_ijt_datetime</span></code> graphs, which are equivalent. In <a class="reference internal" href="Experiment.html"><span class="std std-doc"><strong>the next notebook</strong></span></a>, we show how to use our distance in more general settings. To add a dataset to the <code class="docutils literal notranslate"><span class="pre">Data</span></code> class, we use the <code class="docutils literal notranslate"><span class="pre">LoadDataset</span></code> function. Let us have a look at the function parameters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code>: this is the pandas dataframe representing the graph as a set of temporal edge lists.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: this is a unique identifier of the graph that we will use in our project to call the graph. It can be a string or a number.</p></li>
+</ul>
+<p><strong>Optional inputs</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">taumin</span></code>: our algorithm works with a discrete version of time. When using the <span class="math notranslate nohighlight">\((i,j,t,\tau)\)</span> representation, time can be continuous, and this parameter allows the user to discretize it. If it is not specified, the shortest <span class="math notranslate nohighlight">\(\tau\)</span> will be used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t_agg</span></code>: the two graphs can be compared at different time scales by aggregating the time. Specifically, this parameter sets the time aggregation considering all interactions happening within the temporal resolution as simultaneous. Note that it is different from <code class="docutils literal notranslate"><span class="pre">taumin</span></code>, which only sets the minimal duration of an interaction event in the case in which time is continuous. This parameter is crucial for decreasing the number of snapshots and speeding up the distance computation, while also changing the time scale under analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code>: when representing time in the datetime format, this parameter allows the user to specify how time is represented.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">symmetric</span></code>: this is a boolean variable that indicates whether the graph is directed (<code class="docutils literal notranslate"><span class="pre">symmetric</span> <span class="pre">=</span> <span class="pre">False</span></code>) or undirected (<code class="docutils literal notranslate"><span class="pre">symmetric</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nodes</span></code>: by default it is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> and the set of nodes is inferred from the edge list. Otherwise, it is the list of nodes composing the temporal graph and it may also include nodes that do not appear in the edge list.</p></li>
+</ul>
+</div></blockquote>
+<p>In our dataset, when using the format <code class="docutils literal notranslate"><span class="pre">ijt</span></code>, time is expressed in seconds, and it has a temporal resolution of <span class="math notranslate nohighlight">\(20~s\)</span>. The most obvious choice of <code class="docutils literal notranslate"><span class="pre">taumin</span></code> is thus <code class="docutils literal notranslate"><span class="pre">taumin</span> <span class="pre">=</span> <span class="pre">20</span></code>. If we want to aggregate time over <span class="math notranslate nohighlight">\(10\)</span> minutes, we must choose <code class="docutils literal notranslate"><span class="pre">t_agg</span> <span class="pre">=</span> <span class="pre">600</span></code>, which is the number of seconds present in <span class="math notranslate nohighlight">\(10\)</span> minutes. When using the datetime format, time is expressed <code class="docutils literal notranslate"><span class="pre">year-month-day</span> <span class="pre">hour:minute:second</span></code>. We thus let <code class="docutils literal notranslate"><span class="pre">format</span> <span class="pre">=</span> <span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></code> when using this representation.</p>
+<div style="background-color: #e7f3f9; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; font-family: sans-serif; color: #084b63; margin: 1em 0;">
+  <span style="font-weight: bold; display: inline-flex; align-items: center;">
+    <svg style="height: 16px; width: 16px; margin-right: 6px; fill: #084b63;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.93 10.412c0 .337-.274.588-.61.588h-.64c-.336 0-.61-.251-.61-.588V7.589c0-.337.274-.589.61-.589h.64c.336 0 .61.252.61.589v3.823zM8 5.2a.867.867 0 110-1.734.867.867 0 010 1.733z"/>
+    </svg>
+    Note:
+  </span>
+  While our distance can be used for graphs with any duration, we recall that its computational complexity scales with T, the number of time slices. As such, when dealing with a high-resolution measurement, using the `t_agg` parameter allows the user to speed up the distance calculation by reducing the T
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijt</span><span class="p">,</span> <span class="s1">&#39;ijt&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-----&#39;</span><span class="p">)</span>
+
+<span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijt_datetime</span><span class="p">,</span> <span class="s1">&#39;ijt_datetime&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-----&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The graph has n = 242 nodes
+The number of snapshot is T = 195.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+-----
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+-----
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Data</span></code> class allows the user to access some usuful parameters and perform the main operations to compute the distance. The following commands give access to the various parameters used to compute the distance</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">verbose</span> <span class="c1"># level of verbosity</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">dim</span> <span class="c1"># embedding dimension</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">n_epochs</span> <span class="c1"># number of training epochs to obtain the embedding</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">k</span> <span class="c1"># approximation order used in the embedding algorithm</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">eta</span> <span class="c1"># initial learning parameter in the embedding algorithm</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">seed</span> <span class="c1"># seed used to compute the embedding</span>
+</pre></div>
+</div>
+<p>On top of these parameters, we can use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">graphs</span>
+</pre></div>
+</div>
+<p>to access all datasets that have been loaded. This is a dictionary whose keys are the names attributed to the different graphs. To access the graph named <code class="docutils literal notranslate"><span class="pre">ijt</span></code>, we write</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Graph</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">graphs</span><span class="p">[</span><span class="s1">&#39;ijt&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This outputs a <code class="docutils literal notranslate"><span class="pre">TGraph</span></code> class that gives further useful pieces of information about the graph.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Graph</span><span class="o">.</span><span class="n">df</span> <span class="c1"># dataframe containing the temporal graph. Note, when computing the embedding, this may be deleted to save space</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="c1"># number of nodes</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">NodeMapper</span> <span class="o">=</span> <span class="n">NodeMapper</span> <span class="c1"># this is a dictionary mapping the nodes&#39; ids (as inferred from the input dataset) with integers between 0 and n-1, used to number the rows of the embedding and adjacency matrices</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span> <span class="c1"># number of snapshots</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">t_agg</span> <span class="o">=</span> <span class="n">t_agg</span> <span class="c1"># aggregation parameter</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">taumin</span> <span class="o">=</span> <span class="n">taumin</span> <span class="c1"># minimal duration of a contact</span>
+<span class="n">Graph</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span> <span class="c1"># embedding matrix. Note, to obtain this entry you must first compute the embedding using Data.GraphDynamicEmbedding(name) as detailed below</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="computing-the-distance">
+<h2><span class="section-number">2.3. </span>Computing the distance<a class="headerlink" href="#computing-the-distance" title="Link to this heading">#</a></h2>
+<p>We recall the pipeline we use to compute the distance between temporal graphs</p>
+<img src="_static/pipeline.png" alt="Pipeline diagram" width="1200"/>
+<p>For each graph, we obtain the limiting distribution of time-respecting paths and we create an embedding using the <a class="reference external" href="https://lorenzodallamico.github.io/EDRep/intro.html"><strong>EDRep</strong></a> algorithm. Once we are in the embedded space we can compute the distance. We distinguish between two types of distances <code class="docutils literal notranslate"><span class="pre">matched</span></code> and <code class="docutils literal notranslate"><span class="pre">unmatched</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">matched</span></code>: in this case there is a <strong>known, bijective</strong> relation between the nodes of two graphs. This implies that the nodes are the same. Note that having graphs with the same size is a necessary but not sufficient condition to use this distance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unmatched</span></code>: two graphs are unmatched if they are not matched, or, even if they are, if we do not want to use the known relationship between their nodes. This distance can be used for graphs with a different number of nodes.</p></li>
+</ul>
+<div style="background-color: #e7f3f9; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; font-family: sans-serif; color: #084b63; margin: 1em 0;">
+  <span style="font-weight: bold; display: inline-flex; align-items: center;">
+    <svg style="height: 16px; width: 16px; margin-right: 6px; fill: #084b63;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.93 10.412c0 .337-.274.588-.61.588h-.64c-.336 0-.61-.251-.61-.588V7.589c0-.337.274-.589.61-.589h.64c.336 0 .61.252.61.589v3.823zM8 5.2a.867.867 0 110-1.734.867.867 0 010 1.733z"/>
+    </svg>
+    Note:
+  </span>
+  We recall that the parameters used to train the embedding have to be set when initializing the Graphs4Distance class
+</div>
+<p>The distance can be computed in two ways:</p>
+<ul>
+<li><p>By directly calling the command</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;graph_1&#39;</span><span class="p">,</span> <span class="s1">&#39;graph_2&#39;</span><span class="p">,</span> <span class="n">distance_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">'graph_1'</span></code> and <code class="docutils literal notranslate"><span class="pre">'graph_2'</span></code> are the identifier used for the graphs, while <code class="docutils literal notranslate"><span class="pre">distance_type</span></code> can be <code class="docutils literal notranslate"><span class="pre">'matched'</span></code> or <code class="docutils literal notranslate"><span class="pre">'unmatched'</span></code>. This function will compute the embeddings of the two graphs and then the distance between the embeddings. If the embeddings have already been computed, they will not be computed again.</p>
+</li>
+<li><p>By first computing the embedding explicitly and then computing the distance</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">GraphDynamicEmbedding</span><span class="p">(</span><span class="s1">&#39;graph_1&#39;</span><span class="p">)</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">GraphDynamicEmbeddin</span><span class="p">(</span><span class="s1">&#39;graph_2&#39;</span><span class="p">)</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;graph_1&#39;</span><span class="p">,</span> <span class="s1">&#39;graph_2&#39;</span><span class="p">,</span> <span class="n">distance_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This way, we explcitly first compute the embeddings and then the distance. The main advantage is that the function <code class="docutils literal notranslate"><span class="pre">GraphDynamicEmbedding</span></code> has an additional input called <code class="docutils literal notranslate"><span class="pre">keep_graph</span></code> of boolean type. If it is set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, then it will delete the dataframe containing the temporal graph after computing the embedding. This may be particularly convenient when computing the distance among a large number of graphs, as it allows to free a lot of memory space.</p>
+</li>
+</ul>
+<p>Let us comment two other relevant inputs</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">symmetric</span></code>: this is a Boolean variable. If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> it will force the temporal graph to be undirected, else it will interpret the edge list as directed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_mapping</span></code>: this variable is necessary when using the matched distance and it provides the mapping between the nodes of the two graphs. It can have two expressions</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">same</span></code>: this means that the nodes’ ids in the two graphs are identical</p></li>
+<li><p>it can be a dictionary mapping the node labels of one graph into the other.</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt&#39;</span><span class="p">,</span> <span class="s1">&#39;ijt_datetime&#39;</span><span class="p">,</span> <span class="n">distance_type</span> <span class="o">=</span> <span class="s1">&#39;matched&#39;</span><span class="p">,</span> <span class="n">node_mapping</span> <span class="o">=</span> <span class="s1">&#39;Same&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing the embeddings of ijt
+Running the optimization for k = 1
+Deleting ijt=============&gt;] 100%
+Computing the embeddings of ijt_datetime
+Running the optimization for k = 1
+Deleting ijt_datetime====&gt;] 100%
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Alternatively, we can specify a node mapping by using a dictionary. Here we use a “wrong” node mapping, i.e. a random mapping between nodes that gives a non-zero distance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the nodes in the first graph</span>
+<span class="n">nodes1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">graphs</span><span class="p">[</span><span class="s1">&#39;ijt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">NodeMapper</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="c1"># get the nodes in the second graph and shuffle their labels</span>
+<span class="n">nodes2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">graphs</span><span class="p">[</span><span class="s1">&#39;ijt_datetime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">NodeMapper</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">nodes2</span><span class="p">)</span> <span class="c1"># if we comment this line, the distance is zero</span>
+
+<span class="c1"># create the mapping</span>
+<span class="n">Mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nodes1</span><span class="p">,</span> <span class="n">nodes2</span><span class="p">))</span>
+
+<span class="c1"># compute the distance</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt&#39;</span><span class="p">,</span> <span class="s1">&#39;ijt_datetime&#39;</span><span class="p">,</span> <span class="n">distance_type</span> <span class="o">=</span> <span class="s1">&#39;matched&#39;</span><span class="p">,</span> <span class="n">node_mapping</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>127.21612942391766
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-other-file-formats">
+<h2><span class="section-number">2.4. </span>Using other file formats<a class="headerlink" href="#using-other-file-formats" title="Link to this heading">#</a></h2>
+<p>We now test the other two formats that are accepted as valid inputs. Note that also in this case, time can be represented also in date-time format.</p>
+<section id="ijttau">
+<h3><span class="section-number">2.4.1. </span><code class="docutils literal notranslate"><span class="pre">ijttau</span></code><a class="headerlink" href="#ijttau" title="Link to this heading">#</a></h3>
+<p>We load the file <code class="docutils literal notranslate"><span class="pre">ijttau</span></code> in which the edges are represented in the format <span class="math notranslate nohighlight">\((i,j,t,\tau)\)</span>. Given that time is discrete in the original dataset, the two representations are equivalent if we use <code class="docutils literal notranslate"><span class="pre">taumin</span> <span class="pre">=</span> <span class="pre">20</span></code>. If we change the value of <code class="docutils literal notranslate"><span class="pre">taumin</span></code>, instead, the two graphs will be different and the distance will be non-zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_ijttau</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Data/ijttau.csv&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df_ijttau</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          i     j       t   tau
+0      1426  1427   36740  20.0
+1      1426  1427   36940  40.0
+2      1426  1427   39640  40.0
+3      1426  1427   52820  40.0
+4      1426  1427   54760  20.0
+...     ...   ...     ...   ...
+77516  1919  1922  124500  20.0
+77517  1919  1922  124680  20.0
+77518  1919  1922  125860  20.0
+77519  1919  1922  144280  20.0
+77520  1920  1922  130200  20.0
+
+[77521 rows x 4 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># add the graph with taumin = 20</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijttau</span><span class="p">,</span> <span class="s1">&#39;ijttau_20&#39;</span><span class="p">,</span> <span class="n">taumin</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distance for taumin = 20: </span><span class="si">{</span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ijttau_20&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">distance_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;matched&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">node_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Same&#39;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">##################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># add the graph with taumin = 60</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijttau</span><span class="p">,</span> <span class="s1">&#39;ijttau_60&#39;</span><span class="p">,</span> <span class="n">taumin</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distance for taumin = 60: </span><span class="si">{</span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ijttau_60&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">distance_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;matched&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">node_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Same&#39;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>taumin = 20.0
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+Computing the embeddings of ijttau_20
+Running the optimization for k = 1
+Deleting ijttau_20=======&gt;] 100%
+Distance for taumin = 20: 0.0
+
+##################################
+
+Warning: note that the selected value of `taumin` is smaller than the observed one.
+All interactions with a duration smaller than `taumin` will be increased by default.
+taumin = 60
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+Computing the embeddings of ijttau_60
+Running the optimization for k = 1
+Deleting ijttau_60=======&gt;] 100%
+Distance for taumin = 60: 9.922817866505348
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ijtw-format">
+<h3><span class="section-number">2.4.2. </span><code class="docutils literal notranslate"><span class="pre">ijtw</span></code> format<a class="headerlink" href="#ijtw-format" title="Link to this heading">#</a></h3>
+<p>This format allows to associate a weight to each edge. To test this format, we let the weight of an edge be the cumulative interaction time spent between two nodes in the time-span of <span class="math notranslate nohighlight">\(10\)</span> minutes. By comparing this graph with the original one aggregated at <span class="math notranslate nohighlight">\(10\)</span> minutes, the distance should be zero, while it is non-zero for different aggregation values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the graph ijtw</span>
+<span class="n">df_ijtw</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">df_ijt</span><span class="p">)</span>
+<span class="n">df_ijtw</span><span class="p">[</span><span class="s1">&#39;w&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">df_ijtw</span><span class="o">.</span><span class="n">t</span> <span class="o">-=</span> <span class="n">df_ijtw</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">df_ijtw</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_ijtw</span><span class="o">.</span><span class="n">t</span><span class="o">/</span><span class="mi">600</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df_ijtw</span> <span class="o">=</span> <span class="n">df_ijtw</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df_ijtw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          i     j    t  w
+0      1426  1427    9  3
+1      1426  1427   14  2
+2      1426  1427   36  2
+3      1426  1427   39  1
+4      1426  1427   42  2
+...     ...   ...  ... ..
+44857  1919  1922  152  1
+44858  1919  1922  155  2
+44859  1919  1922  157  1
+44860  1919  1922  188  1
+44861  1920  1922  164  1
+
+[44862 rows x 4 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijtw</span><span class="p">,</span> <span class="s1">&#39;ijtw&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distance with the graph aggregated over 10 minutes windows: </span><span class="si">{</span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ijtw&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">distance_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;matched&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">node_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Same&#39;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">###################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># repeat by comparing with `ijt` aggregated over 20 minutes</span>
+<span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_ijtw</span><span class="p">,</span> <span class="s1">&#39;ijt_20&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">1200</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distance with the graph aggregated over 20 minutes windows: </span><span class="si">{</span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;ijt_20&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ijtw&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">distance_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;matched&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">node_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Same&#39;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The graph has n = 242 nodes
+The number of snapshot is T = 195.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+Computing the embeddings of ijtw
+Running the optimization for k = 1
+Deleting ijtw============&gt;] 100%
+Distance with the graph aggregated over 10 minutes windows: 0.0
+
+###################################
+
+The graph has n = 242 nodes
+The number of snapshot is T = 1.
+To reduce the T and speed up the distance computation, consider to increase the parameter `t_agg`.
+Computing the embeddings of ijt_20
+Running the optimization for k = 1
+Deleting ijt_20==========&gt;] 100%
+Distance with the graph aggregated over 20 minutes windows: 50.24524738717302
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2><span class="section-number">2.5. </span>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>This concludes the description of the basic use of our package. For more involved experiments, <a class="reference internal" href="Experiment.html"><span class="std std-doc"><strong>follow the next tutorial</strong></span></a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="quick.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Quick tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Experiment.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Example of usage</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-the-input-graphs">2.2. Dealing with the input graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formats">2.2.1. Data formats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-graphs4distance-class">2.2.2. Using the <code class="docutils literal notranslate"><span class="pre">Graphs4Distance</span></code> class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-datasets-to-the-data-class">2.2.3. Adding datasets to the <code class="docutils literal notranslate"><span class="pre">Data</span></code> class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-distance">2.3. Computing the distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-other-file-formats">2.4. Using other file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ijttau">2.4.1. <code class="docutils literal notranslate"><span class="pre">ijttau</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ijtw-format">2.4.2. <code class="docutils literal notranslate"><span class="pre">ijtw</span></code> format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">2.5. Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lorenzo Dall'Amico, Ciro Cattuto, Alain Barrat
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

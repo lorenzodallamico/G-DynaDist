@@ -1,0 +1,2697 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Example of usage &#8212; GDynaDist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Experiment';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="functions.html" />
+    <link rel="prev" title="2. Details on the use of the GDynaDist algorithm" href="Example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="GDynaDist - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="GDynaDist - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome!
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quick.html">1. Quick tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example.html">2. Details on the use of the <code class="docutils literal notranslate"><span class="pre">GDynaDist</span></code> algorithm</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Example of usage</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lorenzodallamico/G-DynaDist" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lorenzodallamico/G-DynaDist/issues/new?title=Issue%20on%20page%20%2FExperiment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Experiment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example of usage</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unmatched-distance-between-graph-randomizations">3.1. Unmatched distance between graph randomizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recognizing-a-partial-shuffling-with-the-matched-distance">3.2. Recognizing a partial shuffling with the matched distance</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="example-of-usage">
+<h1><span class="section-number">3. </span>Example of usage<a class="headerlink" href="#example-of-usage" title="Link to this heading">#</a></h1>
+<p>In this notebook, we are going to showcase a couple of practical use examples inspired by our <a class="reference external" href="https://www.nature.com/articles/s41467-024-54280-4"><strong>article</strong></a>.</p>
+<section id="unmatched-distance-between-graph-randomizations">
+<h2><span class="section-number">3.1. </span>Unmatched distance between graph randomizations<a class="headerlink" href="#unmatched-distance-between-graph-randomizations" title="Link to this heading">#</a></h2>
+<p>In the first example, we load a proximity graph and generate two families of random graphs obtained by randomizing the time index (see the function <code class="docutils literal notranslate"><span class="pre">TimeRdn</span></code> below) and by randomizing the order in which the snapshots appear (see the function <code class="docutils literal notranslate"><span class="pre">SequenceRdn</span></code> below). For each randomization, we generate <span class="math notranslate nohighlight">\(250\)</span> graphs. We then compute a <span class="math notranslate nohighlight">\(500 \times 500\)</span> distance matrix between all graph pairs, and we then use this matrix to cluster the graphs according to their randomization class. For simplicity, we visualize the clusters by deploying the <code class="docutils literal notranslate"><span class="pre">umap</span></code> algorithm.</p>
+<div style="background-color: #e7f3f9; border-left: 4px solid #2196F3; padding: 12px 16px; border-radius: 6px; font-family: sans-serif; color: #084b63; margin: 1em 0;">
+  <span style="font-weight: bold; display: inline-flex; align-items: center;">
+    <svg style="height: 16px; width: 16px; margin-right: 6px; fill: #084b63;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.93 10.412c0 .337-.274.588-.61.588h-.64c-.336 0-.61-.251-.61-.588V7.589c0-.337.274-.589.61-.589h.64c.336 0 .61.252.61.589v3.823zM8 5.2a.867.867 0 110-1.734.867.867 0 010 1.733z"/>
+    </svg>
+    Note:
+  </span>
+ The experiment below has a relatively long computation time (~ 12 mins) because we need to generate 500 instances of random temporal graphs, beyond computing the embedding matrices.
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># laod packages</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">umap.umap_</span> <span class="k">as</span> <span class="nn">umap</span>
+
+<span class="kn">from</span> <span class="nn">GDynaDist</span> <span class="kn">import</span> <span class="n">Graphs4Distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the functions to randomize the temporal graphs</span>
+<span class="k">def</span> <span class="nf">TimeRdn</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;With this function, time is randomized by uniformly resampling it between 0 and T, the number of snapshots&#39;&#39;&#39;</span>
+        <span class="n">df_</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">df_</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">df_</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df_</span>
+
+<span class="k">def</span> <span class="nf">SequenceRdn</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;With this function, we randomize the order in which snapshots appear&#39;&#39;&#39;</span>
+    <span class="n">df_</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">t_orig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">t_shuffled</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">t_orig</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">t_shuffled</span><span class="p">)</span>
+    <span class="n">Mapper</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">t_orig</span><span class="p">,</span> <span class="n">t_shuffled</span><span class="p">))</span>
+    <span class="n">df_</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">df_</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Mapper</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Data/primaryschool.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># initialize the Data class</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Graphs4Distance</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">250</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># run the experiment</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">samples</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">df_</span> <span class="o">=</span> <span class="n">TimeRdn</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># create a randomization with the TimeRdn function</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;time_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span> <span class="c1"># load the sataset</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">GraphDynamicEmbedding</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;time_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># create the embedding. By running this command the new dataset is immediately removed from memory, to save space</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;time_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">df_</span> <span class="o">=</span> <span class="n">SequenceRdn</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># repeat the operation with the SequenceRdn function</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;sequence_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">GraphDynamicEmbedding</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sequence_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sequence_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># build the distance matrix</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">samples</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">samples</span><span class="p">))</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">samples</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="c1"># we compute the unmatched distance between graph pairs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_0
+Deleting time_0
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_0
+Deleting sequence_0
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_1
+Deleting time_1
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_1
+Deleting sequence_1
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_2
+Deleting time_2
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_2
+Deleting sequence_2
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_3
+Deleting time_3
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_3
+Deleting sequence_3
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_4
+Deleting time_4
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_4
+Deleting sequence_4
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_5
+Deleting time_5
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_5
+Deleting sequence_5
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_6
+Deleting time_6
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_6
+Deleting sequence_6
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_7
+Deleting time_7
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_7
+Deleting sequence_7
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_8
+Deleting time_8
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_8
+Deleting sequence_8
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_9
+Deleting time_9
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_9
+Deleting sequence_9
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_10
+Deleting time_10
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_10
+Deleting sequence_10
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_11
+Deleting time_11
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_11
+Deleting sequence_11
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_12
+Deleting time_12
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_12
+Deleting sequence_12
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_13
+Deleting time_13
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_13
+Deleting sequence_13
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_14
+Deleting time_14
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_14
+Deleting sequence_14
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_15
+Deleting time_15
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_15
+Deleting sequence_15
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_16
+Deleting time_16
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_16
+Deleting sequence_16
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_17
+Deleting time_17
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_17
+Deleting sequence_17
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_18
+Deleting time_18
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_18
+Deleting sequence_18
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_19
+Deleting time_19
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_19
+Deleting sequence_19
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_20
+Deleting time_20
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_20
+Deleting sequence_20
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_21
+Deleting time_21
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_21
+Deleting sequence_21
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_22
+Deleting time_22
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_22
+Deleting sequence_22
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_23
+Deleting time_23
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_23
+Deleting sequence_23
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_24
+Deleting time_24
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_24
+Deleting sequence_24
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_25
+Deleting time_25
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_25
+Deleting sequence_25
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_26
+Deleting time_26
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_26
+Deleting sequence_26
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_27
+Deleting time_27
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_27
+Deleting sequence_27
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_28
+Deleting time_28
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_28
+Deleting sequence_28
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_29
+Deleting time_29
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_29
+Deleting sequence_29
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_30
+Deleting time_30
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_30
+Deleting sequence_30
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_31
+Deleting time_31
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_31
+Deleting sequence_31
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_32
+Deleting time_32
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_32
+Deleting sequence_32
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_33
+Deleting time_33
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_33
+Deleting sequence_33
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_34
+Deleting time_34
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_34
+Deleting sequence_34
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_35
+Deleting time_35
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_35
+Deleting sequence_35
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_36
+Deleting time_36
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_36
+Deleting sequence_36
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_37
+Deleting time_37
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_37
+Deleting sequence_37
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_38
+Deleting time_38
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_38
+Deleting sequence_38
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_39
+Deleting time_39
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_39
+Deleting sequence_39
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_40
+Deleting time_40
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_40
+Deleting sequence_40
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_41
+Deleting time_41
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_41
+Deleting sequence_41
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_42
+Deleting time_42
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_42
+Deleting sequence_42
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_43
+Deleting time_43
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_43
+Deleting sequence_43
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_44
+Deleting time_44
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_44
+Deleting sequence_44
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_45
+Deleting time_45
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_45
+Deleting sequence_45
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_46
+Deleting time_46
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_46
+Deleting sequence_46
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_47
+Deleting time_47
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_47
+Deleting sequence_47
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_48
+Deleting time_48
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_48
+Deleting sequence_48
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_49
+Deleting time_49
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_49
+Deleting sequence_49
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_50
+Deleting time_50
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_50
+Deleting sequence_50
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_51
+Deleting time_51
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_51
+Deleting sequence_51
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_52
+Deleting time_52
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_52
+Deleting sequence_52
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_53
+Deleting time_53
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_53
+Deleting sequence_53
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_54
+Deleting time_54
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_54
+Deleting sequence_54
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_55
+Deleting time_55
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_55
+Deleting sequence_55
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_56
+Deleting time_56
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_56
+Deleting sequence_56
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_57
+Deleting time_57
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_57
+Deleting sequence_57
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_58
+Deleting time_58
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_58
+Deleting sequence_58
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_59
+Deleting time_59
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_59
+Deleting sequence_59
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_60
+Deleting time_60
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_60
+Deleting sequence_60
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_61
+Deleting time_61
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_61
+Deleting sequence_61
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_62
+Deleting time_62
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_62
+Deleting sequence_62
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_63
+Deleting time_63
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_63
+Deleting sequence_63
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_64
+Deleting time_64
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_64
+Deleting sequence_64
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_65
+Deleting time_65
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_65
+Deleting sequence_65
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_66
+Deleting time_66
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_66
+Deleting sequence_66
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_67
+Deleting time_67
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_67
+Deleting sequence_67
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_68
+Deleting time_68
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_68
+Deleting sequence_68
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_69
+Deleting time_69
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_69
+Deleting sequence_69
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_70
+Deleting time_70
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_70
+Deleting sequence_70
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_71
+Deleting time_71
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_71
+Deleting sequence_71
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_72
+Deleting time_72
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_72
+Deleting sequence_72
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_73
+Deleting time_73
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_73
+Deleting sequence_73
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_74
+Deleting time_74
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_74
+Deleting sequence_74
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_75
+Deleting time_75
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_75
+Deleting sequence_75
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_76
+Deleting time_76
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_76
+Deleting sequence_76
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_77
+Deleting time_77
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_77
+Deleting sequence_77
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_78
+Deleting time_78
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_78
+Deleting sequence_78
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_79
+Deleting time_79
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_79
+Deleting sequence_79
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_80
+Deleting time_80
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_80
+Deleting sequence_80
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_81
+Deleting time_81
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_81
+Deleting sequence_81
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_82
+Deleting time_82
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_82
+Deleting sequence_82
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_83
+Deleting time_83
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_83
+Deleting sequence_83
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_84
+Deleting time_84
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_84
+Deleting sequence_84
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_85
+Deleting time_85
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_85
+Deleting sequence_85
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_86
+Deleting time_86
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_86
+Deleting sequence_86
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_87
+Deleting time_87
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_87
+Deleting sequence_87
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_88
+Deleting time_88
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_88
+Deleting sequence_88
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_89
+Deleting time_89
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_89
+Deleting sequence_89
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_90
+Deleting time_90
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_90
+Deleting sequence_90
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_91
+Deleting time_91
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_91
+Deleting sequence_91
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_92
+Deleting time_92
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_92
+Deleting sequence_92
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_93
+Deleting time_93
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_93
+Deleting sequence_93
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_94
+Deleting time_94
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_94
+Deleting sequence_94
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_95
+Deleting time_95
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_95
+Deleting sequence_95
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_96
+Deleting time_96
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_96
+Deleting sequence_96
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_97
+Deleting time_97
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_97
+Deleting sequence_97
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_98
+Deleting time_98
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_98
+Deleting sequence_98
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_99
+Deleting time_99
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_99
+Deleting sequence_99
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_100
+Deleting time_100
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_100
+Deleting sequence_100
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_101
+Deleting time_101
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_101
+Deleting sequence_101
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_102
+Deleting time_102
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_102
+Deleting sequence_102
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_103
+Deleting time_103
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_103
+Deleting sequence_103
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_104
+Deleting time_104
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_104
+Deleting sequence_104
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_105
+Deleting time_105
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_105
+Deleting sequence_105
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_106
+Deleting time_106
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_106
+Deleting sequence_106
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_107
+Deleting time_107
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_107
+Deleting sequence_107
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_108
+Deleting time_108
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_108
+Deleting sequence_108
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_109
+Deleting time_109
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_109
+Deleting sequence_109
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_110
+Deleting time_110
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_110
+Deleting sequence_110
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_111
+Deleting time_111
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_111
+Deleting sequence_111
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_112
+Deleting time_112
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_112
+Deleting sequence_112
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_113
+Deleting time_113
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_113
+Deleting sequence_113
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_114
+Deleting time_114
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_114
+Deleting sequence_114
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_115
+Deleting time_115
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_115
+Deleting sequence_115
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_116
+Deleting time_116
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_116
+Deleting sequence_116
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_117
+Deleting time_117
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_117
+Deleting sequence_117
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_118
+Deleting time_118
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_118
+Deleting sequence_118
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_119
+Deleting time_119
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_119
+Deleting sequence_119
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_120
+Deleting time_120
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_120
+Deleting sequence_120
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_121
+Deleting time_121
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_121
+Deleting sequence_121
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_122
+Deleting time_122
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_122
+Deleting sequence_122
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_123
+Deleting time_123
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_123
+Deleting sequence_123
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_124
+Deleting time_124
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_124
+Deleting sequence_124
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_125
+Deleting time_125
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_125
+Deleting sequence_125
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_126
+Deleting time_126
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_126
+Deleting sequence_126
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_127
+Deleting time_127
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_127
+Deleting sequence_127
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_128
+Deleting time_128
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_128
+Deleting sequence_128
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_129
+Deleting time_129
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_129
+Deleting sequence_129
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_130
+Deleting time_130
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_130
+Deleting sequence_130
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_131
+Deleting time_131
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_131
+Deleting sequence_131
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_132
+Deleting time_132
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_132
+Deleting sequence_132
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_133
+Deleting time_133
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_133
+Deleting sequence_133
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_134
+Deleting time_134
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_134
+Deleting sequence_134
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_135
+Deleting time_135
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_135
+Deleting sequence_135
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_136
+Deleting time_136
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_136
+Deleting sequence_136
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_137
+Deleting time_137
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_137
+Deleting sequence_137
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_138
+Deleting time_138
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_138
+Deleting sequence_138
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_139
+Deleting time_139
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_139
+Deleting sequence_139
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_140
+Deleting time_140
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_140
+Deleting sequence_140
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_141
+Deleting time_141
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_141
+Deleting sequence_141
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_142
+Deleting time_142
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_142
+Deleting sequence_142
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_143
+Deleting time_143
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_143
+Deleting sequence_143
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_144
+Deleting time_144
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_144
+Deleting sequence_144
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_145
+Deleting time_145
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_145
+Deleting sequence_145
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_146
+Deleting time_146
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_146
+Deleting sequence_146
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_147
+Deleting time_147
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_147
+Deleting sequence_147
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_148
+Deleting time_148
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_148
+Deleting sequence_148
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_149
+Deleting time_149
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_149
+Deleting sequence_149
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_150
+Deleting time_150
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_150
+Deleting sequence_150
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_151
+Deleting time_151
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_151
+Deleting sequence_151
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_152
+Deleting time_152
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_152
+Deleting sequence_152
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_153
+Deleting time_153
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_153
+Deleting sequence_153
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_154
+Deleting time_154
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_154
+Deleting sequence_154
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_155
+Deleting time_155
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_155
+Deleting sequence_155
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_156
+Deleting time_156
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_156
+Deleting sequence_156
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_157
+Deleting time_157
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_157
+Deleting sequence_157
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_158
+Deleting time_158
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_158
+Deleting sequence_158
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_159
+Deleting time_159
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_159
+Deleting sequence_159
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_160
+Deleting time_160
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_160
+Deleting sequence_160
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_161
+Deleting time_161
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_161
+Deleting sequence_161
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_162
+Deleting time_162
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_162
+Deleting sequence_162
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_163
+Deleting time_163
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_163
+Deleting sequence_163
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_164
+Deleting time_164
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_164
+Deleting sequence_164
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_165
+Deleting time_165
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_165
+Deleting sequence_165
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_166
+Deleting time_166
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_166
+Deleting sequence_166
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_167
+Deleting time_167
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_167
+Deleting sequence_167
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_168
+Deleting time_168
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_168
+Deleting sequence_168
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_169
+Deleting time_169
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_169
+Deleting sequence_169
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_170
+Deleting time_170
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_170
+Deleting sequence_170
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_171
+Deleting time_171
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_171
+Deleting sequence_171
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_172
+Deleting time_172
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_172
+Deleting sequence_172
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_173
+Deleting time_173
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_173
+Deleting sequence_173
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_174
+Deleting time_174
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_174
+Deleting sequence_174
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_175
+Deleting time_175
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_175
+Deleting sequence_175
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_176
+Deleting time_176
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_176
+Deleting sequence_176
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_177
+Deleting time_177
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_177
+Deleting sequence_177
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_178
+Deleting time_178
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_178
+Deleting sequence_178
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_179
+Deleting time_179
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_179
+Deleting sequence_179
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_180
+Deleting time_180
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_180
+Deleting sequence_180
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_181
+Deleting time_181
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_181
+Deleting sequence_181
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_182
+Deleting time_182
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_182
+Deleting sequence_182
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_183
+Deleting time_183
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_183
+Deleting sequence_183
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_184
+Deleting time_184
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_184
+Deleting sequence_184
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_185
+Deleting time_185
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_185
+Deleting sequence_185
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_186
+Deleting time_186
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_186
+Deleting sequence_186
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_187
+Deleting time_187
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_187
+Deleting sequence_187
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_188
+Deleting time_188
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_188
+Deleting sequence_188
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_189
+Deleting time_189
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_189
+Deleting sequence_189
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_190
+Deleting time_190
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_190
+Deleting sequence_190
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_191
+Deleting time_191
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_191
+Deleting sequence_191
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_192
+Deleting time_192
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_192
+Deleting sequence_192
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_193
+Deleting time_193
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_193
+Deleting sequence_193
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_194
+Deleting time_194
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_194
+Deleting sequence_194
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_195
+Deleting time_195
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_195
+Deleting sequence_195
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_196
+Deleting time_196
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_196
+Deleting sequence_196
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_197
+Deleting time_197
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_197
+Deleting sequence_197
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_198
+Deleting time_198
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_198
+Deleting sequence_198
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_199
+Deleting time_199
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_199
+Deleting sequence_199
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_200
+Deleting time_200
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_200
+Deleting sequence_200
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_201
+Deleting time_201
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_201
+Deleting sequence_201
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_202
+Deleting time_202
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_202
+Deleting sequence_202
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_203
+Deleting time_203
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_203
+Deleting sequence_203
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_204
+Deleting time_204
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_204
+Deleting sequence_204
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_205
+Deleting time_205
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_205
+Deleting sequence_205
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_206
+Deleting time_206
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_206
+Deleting sequence_206
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_207
+Deleting time_207
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_207
+Deleting sequence_207
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_208
+Deleting time_208
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_208
+Deleting sequence_208
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_209
+Deleting time_209
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_209
+Deleting sequence_209
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_210
+Deleting time_210
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_210
+Deleting sequence_210
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_211
+Deleting time_211
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_211
+Deleting sequence_211
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_212
+Deleting time_212
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_212
+Deleting sequence_212
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_213
+Deleting time_213
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_213
+Deleting sequence_213
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_214
+Deleting time_214
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_214
+Deleting sequence_214
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_215
+Deleting time_215
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_215
+Deleting sequence_215
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_216
+Deleting time_216
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_216
+Deleting sequence_216
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_217
+Deleting time_217
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_217
+Deleting sequence_217
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_218
+Deleting time_218
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_218
+Deleting sequence_218
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_219
+Deleting time_219
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_219
+Deleting sequence_219
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_220
+Deleting time_220
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_220
+Deleting sequence_220
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_221
+Deleting time_221
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_221
+Deleting sequence_221
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_222
+Deleting time_222
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_222
+Deleting sequence_222
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_223
+Deleting time_223
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_223
+Deleting sequence_223
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_224
+Deleting time_224
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_224
+Deleting sequence_224
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_225
+Deleting time_225
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_225
+Deleting sequence_225
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_226
+Deleting time_226
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_226
+Deleting sequence_226
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_227
+Deleting time_227
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_227
+Deleting sequence_227
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_228
+Deleting time_228
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_228
+Deleting sequence_228
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_229
+Deleting time_229
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_229
+Deleting sequence_229
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_230
+Deleting time_230
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_230
+Deleting sequence_230
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_231
+Deleting time_231
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_231
+Deleting sequence_231
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_232
+Deleting time_232
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_232
+Deleting sequence_232
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_233
+Deleting time_233
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_233
+Deleting sequence_233
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_234
+Deleting time_234
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_234
+Deleting sequence_234
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_235
+Deleting time_235
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_235
+Deleting sequence_235
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_236
+Deleting time_236
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_236
+Deleting sequence_236
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_237
+Deleting time_237
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_237
+Deleting sequence_237
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_238
+Deleting time_238
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_238
+Deleting sequence_238
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_239
+Deleting time_239
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_239
+Deleting sequence_239
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_240
+Deleting time_240
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_240
+Deleting sequence_240
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_241
+Deleting time_241
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_241
+Deleting sequence_241
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_242
+Deleting time_242
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_242
+Deleting sequence_242
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_243
+Deleting time_243
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_243
+Deleting sequence_243
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_244
+Deleting time_244
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_244
+Deleting sequence_244
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_245
+Deleting time_245
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_245
+Deleting sequence_245
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_246
+Deleting time_246
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_246
+Deleting sequence_246
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_247
+Deleting time_247
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_247
+Deleting sequence_247
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_248
+Deleting time_248
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_248
+Deleting sequence_248
+The graph has n = 242 nodes
+The number of snapshot is T = 247.
+Computing the embeddings of time_249
+Deleting time_249
+The graph has n = 242 nodes
+The number of snapshot is T = 195.
+Computing the embeddings of sequence_249
+Deleting sequence_249
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the 2D embedding from the distance matrix with umap and plot</span>
+<span class="n">Xembedded_umap</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">UMAP</span><span class="p">(</span><span class="n">metric</span> <span class="o">=</span> <span class="s1">&#39;precomputed&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Xembedded_umap</span><span class="p">[:,</span><span class="mi">0</span><span class="p">][:</span><span class="n">samples</span><span class="p">],</span> <span class="n">Xembedded_umap</span><span class="p">[:,</span><span class="mi">1</span><span class="p">][:</span><span class="n">samples</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#c1121f&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Sequence shuffling&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Xembedded_umap</span><span class="p">[:,</span><span class="mi">0</span><span class="p">][</span><span class="n">samples</span><span class="p">:],</span> <span class="n">Xembedded_umap</span><span class="p">[:,</span><span class="mi">1</span><span class="p">][</span><span class="n">samples</span><span class="p">:],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#669bbc&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Time shuffling&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/lorenzo/anaconda3/lib/python3.12/site-packages/umap/umap_.py:1865: UserWarning: using precomputed metric; inverse_transform will be unavailable
+  warn(&quot;using precomputed metric; inverse_transform will be unavailable&quot;)
+</pre></div>
+</div>
+<img alt="_images/db4436c7e90bd16bc49f7433e730b44a00e927fcc902f55ba2e7ad48068ef1bb.png" src="_images/db4436c7e90bd16bc49f7433e730b44a00e927fcc902f55ba2e7ad48068ef1bb.png" />
+</div>
+</div>
+</section>
+<section id="recognizing-a-partial-shuffling-with-the-matched-distance">
+<h2><span class="section-number">3.2. </span>Recognizing a partial shuffling with the matched distance<a class="headerlink" href="#recognizing-a-partial-shuffling-with-the-matched-distance" title="Link to this heading">#</a></h2>
+<p>We now test the matched distance by looking at its sensitivity to partial node relabeling. We always consider the same temporal graph and randomize the labels of a fraction <span class="math notranslate nohighlight">\(\alpha\)</span> of its nodes. We then compute the distance between the original and reshuffled graph. The experiment is averaged over <span class="math notranslate nohighlight">\(10\)</span> randomizations and, as we show below, the matched distance rapidly grows with <span class="math notranslate nohighlight">\(\alpha\)</span>, meaning that the matched distance between graph pairs can distinguish two graphs that only differ by the naming of their nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">PartialNodeShuffling</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;With this function we partially shuffle the nodes labels of the temporal graph&#39;&#39;&#39;</span>
+
+    <span class="n">df_</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">all_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">]])</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">all_nodes_shuffled</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">)</span>
+    <span class="n">to_be_shuffled</span> <span class="o">=</span> <span class="n">all_nodes_shuffled</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">to_be_shuffled</span><span class="p">)</span>
+    <span class="n">all_nodes_shuffled</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_be_shuffled</span>
+    <span class="n">NodeMapper</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">,</span> <span class="n">all_nodes_shuffled</span><span class="p">))</span>
+
+    <span class="n">df_</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">df_</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">NodeMapper</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="n">df_</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">df_</span><span class="o">.</span><span class="n">j</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">NodeMapper</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">df_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Data/primaryschool.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># initialize the Data class</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">Graphs4Distance</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span> <span class="c1"># load the sataset</span>
+
+<span class="n">alphav</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">n_randomization</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_randomization</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;i:</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">n_randomization</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphav</span><span class="p">:</span>
+        <span class="n">df_</span> <span class="o">=</span> <span class="n">PartialNodeShuffling</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="n">Data</span><span class="o">.</span><span class="n">LoadDataset</span><span class="p">(</span><span class="n">df_</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;alpha_</span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">t_agg</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span> <span class="c1"># load the sataset</span>
+        <span class="n">Data</span><span class="o">.</span><span class="n">GraphDynamicEmbedding</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;alpha_</span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># create the embedding. By running this command the new dataset is immediately removed from memory, to save space</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>i:10/10
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alphav</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">Data</span><span class="o">.</span><span class="n">GetDistance</span><span class="p">(</span><span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;alpha_</span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">distance_type</span> <span class="o">=</span> <span class="s1">&#39;matched&#39;</span><span class="p">,</span> <span class="n">node_mapping</span> <span class="o">=</span> <span class="s1">&#39;Same&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_randomization</span><span class="p">)])</span> <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphav</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;dodgerblue&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\alpha$&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$d_{\rm m}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/dbf8cf061936a461857eb47f05d47939fe2b66337f0f77e73916bfce5b0ffa98.png" src="_images/dbf8cf061936a461857eb47f05d47939fe2b66337f0f77e73916bfce5b0ffa98.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Details on the use of the <code class="docutils literal notranslate"><span class="pre">GDynaDist</span></code> algorithm</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="functions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unmatched-distance-between-graph-randomizations">3.1. Unmatched distance between graph randomizations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recognizing-a-partial-shuffling-with-the-matched-distance">3.2. Recognizing a partial shuffling with the matched distance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lorenzo Dall'Amico, Ciro Cattuto, Alain Barrat
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
