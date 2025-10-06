@@ -22,7 +22,7 @@
 
 
 
-We created a new version of the code contained in this repository. While the core functions are unchanged, we modified the front-end experience to make it the distance calculation more easily accessible. The new version of the codes can be directly installed with the pip command:
+We created a new version of the code contained in this repository. While the core functions are unchanged, we modified the front-end experience to make the distance calculation more easily accessible. The new version of the codes can be directly installed with the pip command:
 
 
 
