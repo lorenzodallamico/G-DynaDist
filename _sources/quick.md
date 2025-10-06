@@ -7,7 +7,7 @@ We provide a quick tutorial on how to use our package to compute the distance be
 Our package can be installed with the `pip` command.
 
 ```bash
-pip install
+pip install gdynadist
 ```
 
 ## Basic use

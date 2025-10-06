@@ -13,7 +13,7 @@ This is the documentation for the `GDyanDist` Python package, which enables the 
 You can install the `GDynaDist` package using pip by running the following command in the terminal.
 
 ```bash
-pip install
+pip install gdynadist
 ```
 
 We also shared an `Anaconda` environment in which all codes were run and tested. You can create it by running the following commands in the terminal
